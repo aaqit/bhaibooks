@@ -1,0 +1,29 @@
+# ---------------------------------------------------------------------------
+# Render Blueprint - BahiBooks ERP (online web deployment)
+# GitHub repo me ye file root par rakho -> Render par "New > Blueprint" se
+# poora setup (service + disk + env) apne aap ban jayega.
+# ---------------------------------------------------------------------------
+services:
+  - type: web
+    name: bahibooks-erp
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: starter            # free plan par persistent disk nahi milta (data udd jayega)
+    region: singapore        # India ke liye sabse kam latency
+    healthCheckPath: /api/health
+    autoDeploy: true         # har git push par auto update
+    envVars:
+      # PORT Render khud deta hai - isliye yahan set nahi karna
+      - key: ACCESS_MODE
+        value: web
+      - key: WEB_FULL_ACCESS
+        value: "true"
+      - key: BAHI_DATA_DIR
+        value: /data
+      # JWT secret Render khud random generate karega
+      - key: JWT_SECRET
+        generateValue: true
+    disk:
+      name: bahibooks-data
+      mountPath: /data       # master.db + companies/ + backups/ yahan persist honge
+      sizeGB: 5

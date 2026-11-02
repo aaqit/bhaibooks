@@ -1,0 +1,20 @@
+{
+  "name": "BahiBooks ERP",
+  "short_name": "BahiBooks",
+  "description": "Tally-style accounting, GST, inventory and reports for Indian shops.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#f4f6fb",
+  "theme_color": "#101828",
+  "icons": [
+    { "src": "/icon-192.svg", "sizes": "192x192", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "/icon-512.svg", "sizes": "512x512", "type": "image/svg+xml", "purpose": "any maskable" }
+  ],
+  "shortcuts": [
+    { "name": "New Sale", "url": "/vouchers/new/SALES" },
+    { "name": "Dashboard", "url": "/" },
+    { "name": "Daybook", "url": "/daybook" }
+  ]
+}

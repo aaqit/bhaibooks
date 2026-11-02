@@ -1,0 +1,50 @@
+services:
+  bahibooks:
+    build: .
+    image: bahibooks-erp:1.0.0
+    container_name: bahibooks
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: "4000"
+      ACCESS_MODE: web
+      WEB_FULL_ACCESS: "true"
+      BAHI_DATA_DIR: /data
+      # Production me strong secret do (openssl rand -hex 48)
+      JWT_SECRET: ${JWT_SECRET:-change-this-to-a-long-random-string}
+    volumes:
+      # Database + backups host par persist
+      - bahibooks-data:/data
+    # Sirf localhost par expose - public traffic Caddy (HTTPS) ke through aayega
+    ports:
+      - "127.0.0.1:4000:4000"
+    networks:
+      - web
+
+  # Reverse proxy + automatic HTTPS (Let's Encrypt)
+  caddy:
+    image: caddy:2-alpine
+    container_name: bahibooks-caddy
+    restart: unless-stopped
+    depends_on:
+      - bahibooks
+    environment:
+      # DOMAIN khaali = plain HTTP. Domain do (e.g. erp.example.com) = auto HTTPS.
+      DOMAIN: ${DOMAIN:-}
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+    networks:
+      - web
+
+volumes:
+  bahibooks-data:
+  caddy-data:
+  caddy-config:
+
+networks:
+  web:

@@ -1,0 +1,31 @@
+node_modules/
+client/node_modules/
+client/dist/
+dist/
+build/
+release/
+
+# Local data — har machine ka apna database, git me kabhi nahi
+data/
+!data/.gitkeep
+backups/
+
+# Secrets / env
+.env
+.env.local
+*.key
+secret.key
+
+# Logs
+*.log
+npm-debug.log*
+logs/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Electron build output
+desktop/dist/
